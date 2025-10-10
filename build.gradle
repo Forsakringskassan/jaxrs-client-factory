@@ -1,0 +1,47 @@
+buildscript {
+  repositories {
+	gradlePluginPortal()
+	mavenCentral()
+	mavenLocal()
+	maven {
+	  url = uri("https://maven.pkg.github.com/Forsakringskassan/repository")
+	  credentials {
+        username = project.findProperty("GITHUB_ACTOR") ?: System.getenv("PACKAGES_RW_ACTOR")
+        password = project.findProperty("GITHUB_TOKEN") ?: System.getenv("PACKAGES_RW_TOKEN")
+	  }
+	}
+  }
+
+  dependencies {
+    classpath "se.fk.gradle:gradle-conventions:1.13.1"
+  }
+}
+
+apply plugin: "se.fk.gradle.bundle-jar"
+
+javaExtension {
+	javaVersion = 21
+}
+
+staticCodeAnalysisExtension {
+	maxViolations.set(0)
+}
+
+dependencies {
+    api "org.glassfish.jersey.core:jersey-client:3.1.11"
+    api "org.glassfish.jersey.ext:jersey-proxy-client:3.1.11"
+    api "org.glassfish.jersey.inject:jersey-hk2:3.1.11"
+    api 'jakarta.ws.rs:jakarta.ws.rs-api:4.0.0'
+    api "jakarta.servlet:jakarta.servlet-api:6.1.0"
+    api "jakarta.validation:jakarta.validation-api:3.1.1"
+    implementation "org.glassfish.jersey.media:jersey-media-json-jackson:3.1.11"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.20.0"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
+    implementation "org.slf4j:slf4j-api:2.0.17"
+
+    testImplementation "org.slf4j:slf4j-simple:2.0.17"
+    testImplementation "org.assertj:assertj-core:3.27.6"
+    testImplementation platform("org.junit:junit-bom:6.0.0")
+    testImplementation "org.junit.jupiter:junit-jupiter:6.0.0"
+    testImplementation "org.wiremock:wiremock:3.13.1"
+}
