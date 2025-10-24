@@ -13,7 +13,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "se.fk.gradle:gradle-conventions:1.14.0"
+    classpath "se.fk.gradle:gradle-conventions:1.17.4"
   }
 }
 
@@ -38,6 +38,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:2.20.0"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
     implementation "org.slf4j:slf4j-api:2.0.17"
+    implementation "se.fk.github.logging:fk-logging:0.0.4"
 
     testImplementation "org.slf4j:slf4j-simple:2.0.17"
     testImplementation "org.assertj:assertj-core:3.27.6"

@@ -23,6 +23,7 @@ public class JaxrsClientFactory
          ClientConfig configuration = new ClientConfig()
                .property(LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT, LoggingFeature.Verbosity.PAYLOAD_ANY)
                .register(new ObjectMapperContextResolver(options)).register(new ClientResponseFilterImpl())
+               .register(new DefaultHeadersRequestClientFilter())
                .register(new ExtraHeadersRequestClientFilter(options.getHeaders()))
                .property(ClientProperties.CONNECT_TIMEOUT, options.getConnectTimeout())
                .property(ClientProperties.READ_TIMEOUT, options.getReadTimeout())
