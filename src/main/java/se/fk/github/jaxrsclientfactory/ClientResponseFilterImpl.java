@@ -30,7 +30,7 @@ public class ClientResponseFilterImpl implements ClientResponseFilter
          add(MediaType.APPLICATION_XML_TYPE);
       }
    };
-   private static final Logger LOG = LoggerFactory.getLogger(ClientResponseFilter.class);
+   private static final Logger LOG = LoggerFactory.getLogger(ClientResponseFilterImpl.class);
 
    @Override
    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException
@@ -43,7 +43,7 @@ public class ClientResponseFilterImpl implements ClientResponseFilter
    {
       if (shouldLog(statusCode))
       {
-         String message = "FK REST Request: URI={0}, method={1}, headers={2}{3}";
+         String message = "FK REST Request: URI={}, method={}, headers={}{}";
          String uri = request.getUri().toString();
          String method = request.getMethod();
          String headers = formatHeadersObject(request.getHeaders());
@@ -65,7 +65,7 @@ public class ClientResponseFilterImpl implements ClientResponseFilter
          String responseText = response.getStatusInfo().getReasonPhrase();
          String headers = formatHeaders(response.getHeaders());
 
-         String message = "FK REST Response: status={0}, headers={1}";
+         String message = "FK REST Response: status={}, headers={}";
          Object[] args =
          {
                responseText, headers
