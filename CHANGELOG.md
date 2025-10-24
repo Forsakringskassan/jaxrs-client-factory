@@ -1,3 +1,9 @@
+## 1.1.1 (2025-10-24)
+
+### Bug Fixes
+
+-  logging parameters not resolved ([dc739](https://github.com/Forsakringskassan/jaxrs-client-factory/commit/dc739813967020e) Tomas Bjerre)  
+
 ## 1.1.0 (2025-10-24)
 
 ### Features
