@@ -1,3 +1,9 @@
+## 1.2.0 (2025-10-26)
+
+### Features
+
+-  MDC logging ([d3779](https://github.com/Forsakringskassan/jaxrs-client-factory/commit/d3779d06746768d) Tomas Bjerre)  
+
 ## 1.1.1 (2025-10-24)
 
 ### Bug Fixes
