@@ -3,6 +3,7 @@ package se.fk.github.jaxrsclientfactory;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,9 @@ import jakarta.ws.rs.client.ClientResponseContext;
 import jakarta.ws.rs.client.ClientResponseFilter;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
+import org.slf4j.MDC;
+import se.fk.github.logging.callerinfo.model.HeaderTyp;
+import se.fk.github.logging.callerinfo.model.MDCKeys;
 
 public class ClientResponseFilterImpl implements ClientResponseFilter
 {
@@ -35,8 +39,55 @@ public class ClientResponseFilterImpl implements ClientResponseFilter
    @Override
    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException
    {
+      pupulateMdcKeys(requestContext, responseContext);
       logRequest(requestContext, responseContext.getStatus());
       logResponse(responseContext, responseContext.getStatus());
+   }
+
+   /**
+    * Works in Quarkus because of quarkus-smallrey-context-propagation.
+    */
+   private void pupulateMdcKeys(ClientRequestContext requestContext, ClientResponseContext responseContext)
+   {
+      logAndGetResponseHeader(HeaderTyp.BREADCRUMB_ID, requestContext, responseContext)
+            .ifPresent(s -> {
+               MDC.put(MDCKeys.BREADCRUMBID.name(), s);
+            });
+      logAndGetResponseHeader(HeaderTyp.PROCESSID, requestContext, responseContext)
+            .ifPresent(s -> MDC.put(MDCKeys.PROCESSID.name(), s));
+   }
+
+   private Optional<String> logAndGetResponseHeader(HeaderTyp headerTyp, ClientRequestContext requestContext,
+         ClientResponseContext responseContext)
+   {
+      Optional<String> requestBreadcrumb = findHeader(requestContext.getStringHeaders(), headerTyp);
+      Optional<String> responseBreadcrumb = findHeader(responseContext.getHeaders(), headerTyp);
+      logIfNotEqual(headerTyp, requestBreadcrumb, responseBreadcrumb);
+      return responseBreadcrumb;
+   }
+
+   private Optional<String> findHeader(MultivaluedMap<String, String> headers, HeaderTyp headerTyp)
+   {
+      String found = headers.getFirst(headerTyp.value());
+      if (found == null || found.isEmpty())
+      {
+         return Optional.empty();
+      }
+      return Optional.of(found);
+   }
+
+   private void logIfNotEqual(HeaderTyp headerTyp, Optional<String> requestBreadcrumb, Optional<String> responseBreadcrumb)
+   {
+      if (requestBreadcrumb.isEmpty() || responseBreadcrumb.isEmpty())
+      {
+         return;
+      }
+      if (requestBreadcrumb.get().equalsIgnoreCase(responseBreadcrumb.get()))
+      {
+         return;
+      }
+      LOG.info("Sent request with {} {} got response with {} {}", headerTyp, requestBreadcrumb.get(), headerTyp,
+            responseBreadcrumb.get());
    }
 
    private void logRequest(ClientRequestContext request, int statusCode)
