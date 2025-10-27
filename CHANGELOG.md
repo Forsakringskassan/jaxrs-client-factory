@@ -1,3 +1,9 @@
+## 1.3.0 (2025-10-27)
+
+### Features
+
+-  using loggin filters from fk-logging ([81d84](https://github.com/Forsakringskassan/jaxrs-client-factory/commit/81d846485dac0f0) Tomas Bjerre)  
+
 ## 1.2.0 (2025-10-26)
 
 ### Features
