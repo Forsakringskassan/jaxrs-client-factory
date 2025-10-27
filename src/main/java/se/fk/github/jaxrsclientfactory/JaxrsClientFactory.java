@@ -8,6 +8,8 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import se.fk.github.logging.callerinfo.filter.LoggingContextClientRequestFilter;
+import se.fk.github.logging.callerinfo.filter.LoggingContextClientResponseFilter;
 
 public class JaxrsClientFactory
 {
@@ -22,9 +24,11 @@ public class JaxrsClientFactory
       {
          ClientConfig configuration = new ClientConfig()
                .property(LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT, LoggingFeature.Verbosity.PAYLOAD_ANY)
-               .register(new ObjectMapperContextResolver(options)).register(new ClientResponseFilterImpl())
-               .register(new DefaultHeadersRequestClientFilter())
+               .register(new ObjectMapperContextResolver(options))
+               .register(new ClientResponseFilterImpl())
                .register(new ExtraHeadersRequestClientFilter(options.getHeaders()))
+               .register(new LoggingContextClientRequestFilter())
+               .register(new LoggingContextClientResponseFilter())
                .property(ClientProperties.CONNECT_TIMEOUT, options.getConnectTimeout())
                .property(ClientProperties.READ_TIMEOUT, options.getReadTimeout())
                .property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
