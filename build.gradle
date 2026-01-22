@@ -35,8 +35,8 @@ dependencies {
     api "jakarta.servlet:jakarta.servlet-api:6.1.0"
     api "jakarta.validation:jakarta.validation-api:3.1.1"
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:3.1.11"
-    implementation "com.fasterxml.jackson.core:jackson-databind:2.20.1"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.1"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.21.0"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.0"
     implementation "org.slf4j:slf4j-api:2.0.17"
     implementation "se.fk.github.logging:fk-logging:0.3.0"
 
