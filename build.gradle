@@ -37,10 +37,10 @@ dependencies {
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:3.1.11"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.21.3"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.3"
-    implementation "org.slf4j:slf4j-api:2.0.17"
+    implementation "org.slf4j:slf4j-api:2.0.18"
     implementation "se.fk.github.logging:fk-logging:0.3.0"
 
-    testImplementation "org.slf4j:slf4j-simple:2.0.17"
+    testImplementation "org.slf4j:slf4j-simple:2.0.18"
     testImplementation "org.assertj:assertj-core:3.27.7"
     testImplementation platform("org.junit:junit-bom:6.0.3")
     testImplementation "org.junit.jupiter:junit-jupiter:6.0.3"
